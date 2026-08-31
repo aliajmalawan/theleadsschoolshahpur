@@ -112,7 +112,7 @@ function getStatistics() {
     return [
         'students' => getSetting('stats_students', '500'),
         'teachers' => getSetting('stats_teachers', '50'),
-        'courses' => getSetting('stats_courses', '15'),
+        'courses' => getSetting('stats_courses', '98'), // now displayed as Board Pass Rate %
         'years' => getSetting('stats_years', '10')
     ];
 }
@@ -402,7 +402,7 @@ function getStatsHeader() {
         'highlight' => getSetting('stats_title_highlight', 'Speak'),
         'sub_students' => getSetting('stats_sub_students', 'Enrolled & Growing'),
         'sub_teachers' => getSetting('stats_sub_teachers', 'Qualified & Experienced'),
-        'sub_courses' => getSetting('stats_sub_courses', 'Diverse Programs'),
+        'sub_courses' => getSetting('stats_sub_courses', 'Consistently Excellent Results'),
         'sub_years' => getSetting('stats_sub_years', 'Trusted by Families')
     ];
 }

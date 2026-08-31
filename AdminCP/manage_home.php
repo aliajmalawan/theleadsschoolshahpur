@@ -728,7 +728,7 @@ $tab_labels = [
                         <input type="number" name="stats_teachers" value="<?php echo htmlspecialchars($stats['teachers']); ?>">
                     </div>
                     <div class="form-group">
-                        <label>Courses Offered Count</label>
+                        <label>Board Pass Rate (%)</label>
                         <input type="number" name="stats_courses" value="<?php echo htmlspecialchars($stats['courses']); ?>">
                     </div>
                     <div class="form-group">
@@ -765,7 +765,7 @@ $tab_labels = [
                         <input type="text" name="stats_sub_teachers" value="<?php echo htmlspecialchars($stats_header['sub_teachers']); ?>">
                     </div>
                     <div class="form-group">
-                        <label>Courses Sub-label</label>
+                        <label>Pass Rate Sub-label</label>
                         <input type="text" name="stats_sub_courses" value="<?php echo htmlspecialchars($stats_header['sub_courses']); ?>">
                     </div>
                     <div class="form-group">

@@ -608,12 +608,12 @@ if ($notifications && mysqli_num_rows($notifications) > 0):
                 <p class="sm-text">Expert Teachers</p>
                 <p class="sm-sub"><?php echo htmlspecialchars($stats_header['sub_teachers']); ?></p>
             </div>
-            <!-- Courses -->
+            <!-- Board Pass Rate -->
             <div class="sm-card sm-animate" style="transition-delay:0.2s;">
-                <div class="sm-icon"><i class="fas fa-book-open"></i></div>
-                <span class="sm-number sm-count" data-target="<?php echo intval($stats['courses']); ?>">0</span>
+                <div class="sm-icon"><i class="fas fa-award"></i></div>
+                <span class="sm-number sm-count" data-target="<?php echo intval($stats['courses']); ?>" data-suffix="%">0</span>
                 <div class="sm-divider"></div>
-                <p class="sm-text">Courses Offered</p>
+                <p class="sm-text">Board Pass Rate</p>
                 <p class="sm-sub"><?php echo htmlspecialchars($stats_header['sub_courses']); ?></p>
             </div>
             <!-- Years -->
@@ -651,16 +651,17 @@ if ($notifications && mysqli_num_rows($notifications) > 0):
             if (el && !el.dataset.done) {
                 el.dataset.done = '1';
                 var target = parseInt(el.dataset.target) || 0;
+                var suffix = el.dataset.suffix || '+';
                 var start = 0;
                 var dur = 1800;
                 var step = target / (dur / 16);
                 var timer = setInterval(function(){
                     start += step;
                     if (start >= target) {
-                        el.textContent = target + '+';
+                        el.textContent = target + suffix;
                         clearInterval(timer);
                     } else {
-                        el.textContent = Math.floor(start) + '+';
+                        el.textContent = Math.floor(start) + suffix;
                     }
                 }, 16);
             }
