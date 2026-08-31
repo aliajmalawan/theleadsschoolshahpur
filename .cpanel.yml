@@ -1,0 +1,12 @@
+---
+deployment:
+  tasks:
+    # This assumes theleadschoolshahpur.com is the PRIMARY domain on this
+    # cPanel account, so its files live directly in public_html.
+    #
+    # If it's an ADDON domain instead, change the line below to match its
+    # real document root, e.g.:
+    #   - export DEPLOYPATH=/home/$USER/public_html/theleadschoolshahpur.com/
+    # (check cPanel > Domains to see the exact document root path)
+    - export DEPLOYPATH=/home/$USER/public_html/
+    - /bin/cp -R * $DEPLOYPATH

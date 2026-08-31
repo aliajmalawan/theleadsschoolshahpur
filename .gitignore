@@ -1,0 +1,10 @@
+# OS / editor junk
+.DS_Store
+Thumbs.db
+*.swp
+
+# Logs
+*.log
+
+# Local environment overrides (if ever added)
+.env

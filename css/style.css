@@ -1,0 +1,772 @@
+/* ================================================================
+   Leads School System — Main Stylesheet
+   ================================================================ */
+
+/* ── 1. CSS VARIABLES & RESET ──
+   Brand tokens (--primary-color / --secondary-color / --accent-color) are the
+   3 admin-editable channels: their base values below are fallback defaults,
+   but AdminCP > Theme Manager overrides them at runtime via an inline
+   :root block injected in <head> (see includes/theme_helper.php::getThemeCSS()).
+   Everything else in this file should reference the semantic token names
+   below rather than hardcoded hex, so a future theme change stays global. */
+:root {
+    /* Brand palette */
+    --primary-color: #0D2B5E;    /* Navy — navbar, footer, headings */
+    --primary-dark: #081D40;     /* Deeper navy — brand bar, outline-btn hover */
+    --secondary-color: #184A9C;  /* Royal Blue — links, icons, hover/active */
+    --secondary-dark: #123B7D;   /* Darker royal blue — hover state */
+    --accent-color: #F58220;     /* Orange — primary CTA / important highlights */
+    --accent-dark: #D96C0F;      /* Darker orange — hover state */
+    --highlight: #FFC107;        /* Sunshine yellow — sparing decorative accent */
+    --highlight-dark: #E6AC00;
+
+    /* Neutrals */
+    --white: #FFFFFF;
+    --background: #F2F4F7;
+    --text-dark: #172033;
+    --text-light: #667085;
+    --bg-light: #F2F4F7;
+    --border-color: #E4E7EC;
+
+    /* Legacy alias kept for older markup */
+    --brand-dark: var(--primary-dark);
+
+    --shadow-sm: 0 2px 12px rgba(13,43,94,0.08);
+    --shadow-md: 0 8px 32px rgba(13,43,94,0.12);
+    --shadow-lg: 0 20px 60px rgba(13,43,94,0.16);
+    --radius-sm: 8px;
+    --radius-md: 14px;
+    --radius-lg: 22px;
+    --font: 'Poppins', sans-serif;
+    --transition: 0.3s cubic-bezier(0.25,1,0.5,1);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; font-size: 16px; }
+
+body {
+    font-family: var(--font);
+    color: var(--text-dark);
+    background: #fff;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+}
+
+a { text-decoration: none; color: inherit; }
+ul { list-style: none; }
+img { max-width: 100%; display: block; }
+button { font-family: var(--font); cursor: pointer; border: none; background: none; }
+
+
+/* ── 2. LAYOUT ── */
+.container {
+    max-width: 1220px;
+    margin: 0 auto;
+    padding: 0 24px;
+    width: 100%;
+}
+
+
+/* ── 3. TYPOGRAPHY UTILITIES ── */
+.section-header { text-align: center; margin-bottom: 52px; }
+
+.section-badge {
+    display: inline-flex; align-items: center; gap: 7px;
+    background: rgba(24,74,156,0.08);
+    border: 1px solid rgba(24,74,156,0.2);
+    color: var(--secondary-color);
+    padding: 6px 18px; border-radius: 50px;
+    font-size: 10.5px; font-weight: 700;
+    letter-spacing: 2.2px; text-transform: uppercase;
+    margin-bottom: 14px;
+}
+
+.section-title {
+    font-size: 38px; font-weight: 800;
+    color: var(--text-dark); line-height: 1.2;
+    margin-bottom: 14px;
+}
+
+.section-subtitle {
+    font-size: 15px; color: var(--text-light);
+    max-width: 560px; margin: 0 auto; line-height: 1.75;
+}
+
+
+/* ── 4. BUTTONS ── */
+.btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 11px 26px; border-radius: 10px;
+    font-family: var(--font); font-size: 14px; font-weight: 600;
+    cursor: pointer; transition: all var(--transition);
+    text-decoration: none; border: 2px solid transparent;
+    white-space: nowrap;
+}
+
+/* Primary CTA — Apply Now / Enroll Now / Contact Us / form submits */
+.btn-primary {
+    background: var(--accent-color);
+    color: #fff;
+    border-color: var(--accent-color);
+}
+.btn-primary:hover {
+    background: var(--accent-dark);
+    border-color: var(--accent-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 28px rgba(245,130,32,0.35);
+    color: #fff;
+}
+
+/* Secondary — Royal Blue, for supporting actions on light backgrounds */
+.btn-secondary {
+    background: var(--secondary-color);
+    color: #fff;
+    border-color: var(--secondary-color);
+}
+.btn-secondary:hover {
+    background: var(--secondary-dark);
+    border-color: var(--secondary-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 28px rgba(24,74,156,0.3);
+    color: #fff;
+}
+
+/* Outline — for use on dark/navy backgrounds (hero, CTA bands) */
+.btn-outline {
+    background: transparent;
+    color: #fff;
+    border-color: rgba(255,255,255,0.65);
+}
+.btn-outline:hover {
+    background: rgba(255,255,255,0.12);
+    border-color: rgba(255,255,255,1);
+    color: #fff;
+    transform: translateY(-2px);
+}
+
+/* Outline — Navy, for use on white/light backgrounds */
+.btn-outline-navy {
+    background: transparent;
+    color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+.btn-outline-navy:hover {
+    background: var(--primary-color);
+    color: #fff;
+    transform: translateY(-2px);
+}
+
+.btn-group {
+    display: flex; align-items: center;
+    flex-wrap: wrap; gap: 14px;
+}
+
+
+/* ── 4b. CARDS & FORM CONTROLS (shared by AdminCP + content list pages) ── */
+.card {
+    background: #fff;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-sm);
+    padding: 25px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: var(--text-dark);
+    font-size: 14px;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    display: block;
+    width: 100%;
+    padding: 11px 15px;
+    font-size: 14.5px;
+    font-family: var(--font);
+    color: var(--text-dark);
+    border: 1px solid #d7dde0;
+    border-radius: var(--radius-sm);
+    background: #f9fafb;
+    transition: var(--transition);
+}
+
+.form-group textarea {
+    resize: vertical;
+    min-height: 90px;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: var(--secondary-color);
+    background: #fff;
+    box-shadow: 0 0 0 3px rgba(24,74,156,0.12);
+}
+
+.form-group input[type="color"] {
+    padding: 4px;
+    cursor: pointer;
+}
+
+.form-group input[type="checkbox"],
+.form-group input[type="radio"] {
+    width: auto;
+    display: inline-block;
+}
+
+.form-group small {
+    display: block;
+    margin-top: 5px;
+    font-size: 12px;
+    color: var(--text-light);
+}
+
+
+/* ================================================================
+   5. HEADER — Two-section layout (Brand Bar + Nav Bar)
+   ================================================================ */
+#main-header {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    transition: box-shadow 0.3s ease;
+}
+#main-header.scrolled {
+    box-shadow: 0 4px 24px rgba(0,0,0,0.22);
+}
+
+/* ── BRAND BAR (top section) ── */
+.brand-bar {
+    background: var(--brand-dark);
+    padding: 0 0;
+}
+.brand-bar .container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    min-height: 78px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+/* Logo + Name + Tagline */
+.brand-identity {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    text-decoration: none;
+    flex-shrink: 0;
+}
+.brand-identity img {
+    height: 54px;
+    width: 54px;
+    border-radius: 50%;
+    object-fit: contain;
+    object-position: center;
+    flex-shrink: 0;
+}
+.brand-text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+.brand-name {
+    font-size: 18px;
+    font-weight: 800;
+    color: #ffffff;
+    letter-spacing: -0.2px;
+    line-height: 1.2;
+}
+.brand-tagline {
+    font-size: 11px;
+    color: var(--highlight);
+    font-weight: 500;
+    letter-spacing: 0.3px;
+    opacity: 0.9;
+}
+
+/* Right side: Contact + Actions */
+.brand-right {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    flex-shrink: 0;
+}
+
+.brand-contact {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: nowrap;
+}
+.brand-contact a {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: rgba(255,255,255,0.78);
+    font-size: 12.5px;
+    font-weight: 500;
+    transition: color 0.25s ease;
+    white-space: nowrap;
+}
+.brand-contact a:hover { color: var(--accent-color); }
+.brand-contact a i { font-size: 11px; color: var(--accent-color); }
+.brand-contact-sep {
+    width: 1px;
+    height: 18px;
+    background: rgba(255,255,255,0.15);
+    flex-shrink: 0;
+}
+
+.brand-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-shrink: 0;
+}
+
+/* Campus Login button */
+.campus-login-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    background: var(--accent-color);
+    color: #fff;
+    padding: 7px 18px;
+    border-radius: 7px;
+    font-size: 12.5px;
+    font-weight: 700;
+    transition: all var(--transition);
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+.campus-login-btn:hover {
+    background: var(--accent-dark);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(245,130,32,0.3);
+    color: #fff;
+}
+.campus-login-btn i { font-size: 11px; }
+
+/* Social icons */
+.brand-social {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+.brand-social a {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.12);
+    color: rgba(255,255,255,0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    transition: all var(--transition);
+    flex-shrink: 0;
+}
+.brand-social a:hover {
+    background: var(--accent-color);
+    border-color: var(--accent-color);
+    color: #1a2b2c;
+    transform: translateY(-2px);
+}
+
+
+/* ── NAV BAR (bottom section with icon+text) ── */
+#main-nav {
+    background: var(--primary-color);
+    border-top: 1px solid rgba(255,255,255,0.08);
+}
+#main-nav .container {
+    display: flex;
+    align-items: stretch;
+    min-height: 62px;
+    padding-top: 0;
+    padding-bottom: 0;
+    position: relative;
+}
+
+/* Nav links list */
+.nav-links {
+    display: flex;
+    align-items: stretch;
+    width: 100%;
+    justify-content: space-between;
+}
+
+/* Each nav item */
+.nav-links > li {
+    position: relative;
+    flex: 1;
+    display: flex;
+    align-items: stretch;
+}
+
+/* Each nav anchor — icon on top, text below */
+.nav-links > li > a {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    width: 100%;
+    padding: 10px 6px;
+    color: rgba(255,255,255,0.85);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.2px;
+    text-align: center;
+    transition: color 0.25s ease, background 0.25s ease;
+    position: relative;
+    text-decoration: none;
+}
+.nav-links > li > a i:first-child {
+    font-size: 17px;
+    transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1), color 0.25s ease;
+    line-height: 1;
+}
+.nav-links > li > a span {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    line-height: 1;
+}
+.nav-links > li > a .chev {
+    font-size: 8px;
+    margin-top: 1px;
+    transition: transform 0.25s ease;
+}
+
+/* Gold bottom line on hover/active */
+.nav-links > li > a::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 20%; right: 20%;
+    height: 3px;
+    background: var(--accent-color);
+    border-radius: 3px 3px 0 0;
+    transform: scaleX(0);
+    transition: transform 0.25s ease;
+}
+.nav-links > li > a:hover::after,
+.nav-links > li > a.active::after {
+    transform: scaleX(1);
+}
+
+.nav-links > li > a:hover,
+.nav-links > li > a.active {
+    color: var(--accent-color);
+    background: rgba(255,255,255,0.06);
+}
+.nav-links > li > a:hover i:first-child,
+.nav-links > li > a.active i:first-child {
+    transform: translateY(-2px);
+    color: var(--accent-color);
+}
+
+/* Rotate chevron when dropdown open */
+.nav-links > li.open > a .chev {
+    transform: rotate(180deg);
+}
+
+
+/* ── DROPDOWN MENU ── */
+.dropdown { position: relative; }
+
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    min-width: 200px;
+    background: #fff;
+    border-radius: 0 0 12px 12px;
+    box-shadow: 0 16px 48px rgba(0,0,0,0.16);
+    border-top: 3px solid var(--accent-color);
+    overflow: hidden;
+    z-index: 200;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    transform: translateX(-50%) translateY(-6px);
+}
+.dropdown:hover .dropdown-menu,
+.dropdown.open .dropdown-menu {
+    display: block;
+    opacity: 1;
+    pointer-events: all;
+    transform: translateX(-50%) translateY(0);
+}
+
+.dropdown-menu li a {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 11px 20px;
+    color: var(--text-dark);
+    font-size: 13px;
+    font-weight: 500;
+    transition: background 0.2s ease, color 0.2s ease, padding-left 0.2s ease;
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+}
+.dropdown-menu li:last-child a { border-bottom: none; }
+.dropdown-menu li a i {
+    width: 18px; text-align: center;
+    color: var(--primary-color); font-size: 13px;
+    flex-shrink: 0;
+}
+.dropdown-menu li a:hover {
+    background: rgba(24,74,156,0.08);
+    color: var(--secondary-color);
+    padding-left: 26px;
+}
+.dropdown-menu li a:hover i { color: var(--secondary-color); }
+
+
+/* ── HAMBURGER / MOBILE TOGGLE ── */
+.menu-toggle {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    cursor: pointer;
+    padding: 12px 0;
+    align-self: center;
+    margin-left: auto;
+}
+.menu-toggle span {
+    display: block;
+    width: 24px;
+    height: 2px;
+    background: rgba(255,255,255,0.9);
+    border-radius: 2px;
+    transition: all 0.3s ease;
+}
+.menu-toggle.active span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.menu-toggle.active span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+.menu-toggle.active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+
+/* ================================================================
+   6. FOOTER
+   ================================================================ */
+footer {
+    background: linear-gradient(160deg, #052e30 0%, #043234 40%, #074d50 100%);
+    color: rgba(255,255,255,0.72);
+    padding: 70px 0 0;
+    margin-top: 0;
+}
+
+.footer-content {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr 1fr 1.2fr;
+    gap: 40px;
+    padding-bottom: 52px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
+.footer-section h3 {
+    color: #fff;
+    font-size: 15px;
+    font-weight: 700;
+    margin-bottom: 20px;
+    position: relative;
+    padding-bottom: 12px;
+}
+.footer-section h3::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0;
+    width: 36px; height: 2px;
+    background: var(--highlight);
+    border-radius: 2px;
+}
+
+.footer-section ul { display: flex; flex-direction: column; gap: 9px; }
+.footer-section ul li a {
+    color: rgba(255,255,255,0.65);
+    font-size: 13.5px;
+    transition: color 0.25s ease, padding-left 0.25s ease;
+    display: flex; align-items: center; gap: 7px;
+}
+.footer-section ul li a::before {
+    content: '›';
+    color: var(--accent-color);
+    font-size: 16px; line-height: 1;
+    transition: transform 0.25s ease;
+}
+.footer-section ul li a:hover {
+    color: var(--accent-color);
+    padding-left: 4px;
+}
+.footer-section ul li a:hover::before { transform: translateX(3px); }
+
+.footer-section p {
+    color: rgba(255,255,255,0.62);
+    font-size: 13.5px;
+    line-height: 1.8;
+}
+
+.footer-section a {
+    color: rgba(255,255,255,0.65);
+    font-size: 13px;
+    transition: color 0.25s ease;
+}
+.footer-section a:hover { color: var(--accent-color); }
+
+/* Social links in footer */
+.social-links {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+    flex-wrap: wrap;
+}
+.social-links a {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.12);
+    color: rgba(255,255,255,0.75) !important;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px;
+    transition: all var(--transition) !important;
+}
+.social-links a:hover {
+    background: var(--accent-color) !important;
+    border-color: var(--accent-color) !important;
+    color: #1a2b2c !important;
+    transform: translateY(-3px) !important;
+}
+
+/* Footer bottom bar */
+.footer-bottom {
+    padding: 18px 0;
+    text-align: center;
+}
+.footer-bottom p {
+    color: rgba(255,255,255,0.45);
+    font-size: 13px;
+}
+
+
+/* ================================================================
+   7. COMMON SECTION STYLES
+   ================================================================ */
+section { padding: 72px 0; }
+
+
+/* ================================================================
+   8. RESPONSIVE — Tablet (max 1024px)
+   ================================================================ */
+@media (max-width: 1024px) {
+    .brand-contact { display: none; }
+    .brand-name { font-size: 16px; }
+    .nav-links > li > a { font-size: 10px; padding: 10px 4px; }
+    .nav-links > li > a i:first-child { font-size: 15px; }
+    .footer-content { grid-template-columns: 1fr 1fr; gap: 32px; }
+}
+
+
+/* ================================================================
+   9. RESPONSIVE — Mobile (max 768px)
+   ================================================================ */
+@media (max-width: 768px) {
+
+    /* Brand bar condensed */
+    .brand-bar .container { min-height: 64px; padding-top: 8px; padding-bottom: 8px; }
+    .brand-identity img { height: 42px; width: 42px; }
+    .brand-name { font-size: 14px; }
+    .brand-tagline { display: none; }
+    .brand-social { display: none; }
+    .campus-login-btn { padding: 6px 14px; font-size: 11px; }
+
+    /* Show hamburger, hide nav links by default */
+    .menu-toggle { display: flex; }
+
+    .nav-links {
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 100%;
+        left: 0; right: 0;
+        background: var(--primary-color);
+        box-shadow: 0 12px 40px rgba(0,0,0,0.25);
+        z-index: 999;
+        padding: 8px 0 16px;
+        justify-content: flex-start;
+    }
+    .nav-links.active { display: flex; }
+
+    .nav-links > li { flex: none; }
+    .nav-links > li > a {
+        flex-direction: row;
+        justify-content: flex-start;
+        padding: 12px 24px;
+        font-size: 13px;
+        gap: 12px;
+        border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .nav-links > li > a::after { display: none; }
+    .nav-links > li > a i:first-child { font-size: 16px; width: 20px; text-align: center; }
+
+    /* Mobile dropdown */
+    .dropdown-menu {
+        position: static;
+        transform: none !important;
+        min-width: 100%;
+        box-shadow: none;
+        border-radius: 0;
+        border-top: none;
+        background: rgba(255,255,255,0.06);
+        display: none;
+        opacity: 1;
+        pointer-events: all;
+    }
+    .dropdown.open .dropdown-menu { display: block; }
+    .dropdown-menu li a {
+        color: rgba(255,255,255,0.8);
+        padding: 10px 20px 10px 52px;
+        border-bottom-color: rgba(255,255,255,0.06);
+        background: transparent;
+        font-size: 12.5px;
+    }
+    .dropdown-menu li a i { color: var(--accent-color); }
+    .dropdown-menu li a:hover {
+        background: rgba(255,255,255,0.06);
+        color: var(--accent-color);
+        padding-left: 58px;
+    }
+
+    /* Section titles on mobile */
+    .section-title { font-size: 26px; }
+    .footer-content { grid-template-columns: 1fr; gap: 28px; }
+}
+
+
+/* ================================================================
+   10. RESPONSIVE — Small mobile (max 480px)
+   ================================================================ */
+@media (max-width: 480px) {
+    .container { padding: 0 16px; }
+    .brand-bar .container { gap: 12px; }
+    .brand-name { font-size: 13px; }
+    .campus-login-btn { display: none; }
+    .section-title { font-size: 22px; }
+}
