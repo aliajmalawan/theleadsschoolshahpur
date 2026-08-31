@@ -1,9 +1,21 @@
 <?php
 // Database Configuration
+// DB_HOST / DB_USER / DB_NAME are the same on localhost and the live server,
+// so they're safe to commit here as-is.
 define('DB_HOST', 'localhost');
 define('DB_USER', 'theleads_schoolshahpur');
-define('DB_PASS', '');
 define('DB_NAME', 'theleads_schoolsystem');
+
+// The real password only differs on the live server, and must never be
+// committed to git. If includes/db_credentials.php exists (created once,
+// directly on the server, and listed in .gitignore) it defines DB_PASS with
+// the real value and is never touched by `git pull`. Locally, where that
+// file doesn't exist, DB_PASS falls back to XAMPP's default empty password.
+if (file_exists(__DIR__ . '/db_credentials.php')) {
+    require __DIR__ . '/db_credentials.php';
+} else {
+    define('DB_PASS', '');
+}
 
 // Create connection
 $conn = mysqli_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
